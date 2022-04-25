@@ -67,13 +67,13 @@ class InteractiveMovieDataBase(MovieDataBase):
             title, year, category = input('Enter movie title, year and '
                                           'category in order: ').split(",")
             assert(isinstance(title, str)), 'Title needs to be a string.'
-            assert(isinstance(year, str) and year.isdigit()), 'Year has to be a number.'
+            assert(year.isdigit()), 'Year has to be a number.'
             assert(category in ('action', 'animation', 
                                 'comedy', 'drama', 'fantasy', 'horror', 
                                 'romance')), 'Please choose a valid category'
             
             stars = float(input('Enter stars: '))
-            assert stars < 5 or stars > 0, 'Enter valid rating'
+            assert stars <= 5 and stars >= 0, 'Enter valid rating'
             
             self.titles.append(title)
             self.movies[title] = {'year':year, 'category':category, 'stars':stars}
