@@ -81,9 +81,9 @@ class InteractiveMovieDataBase(MovieDataBase):
             print(f'{title} ({year}) added to the database.')
         
     def movie_rankings(self):
-        ranking = [self.titles for key, value in sorted(self.movies.items(), 
-                               key=lambda kv: kv[1]['stars'], reverse=True)]
-        return ranking[0]
+        #ranking = {self.titles: self.movies[k] for k in self.movies.keys() & {'stars'}}
+        ranking = [sorted(self.titles, key=lambda kv: self.movies[kv]['stars'], reverse=True)]
+        return ranking
  
 mov1 = MovieDataBase()       
 mov1.add_movie("Taken", 2008, 'action', 4) 
@@ -101,7 +101,7 @@ mov2.what_to_watch()
 
 mov3 = InteractiveMovieDataBase()
 mov3.add_movie("Baahubali", 2015, 'fantasy', 5)
-mov3.add_movie("Kimi No Na Wa", 2017, 'animation', 4.6)
+mov3.add_movie("Kimi No Na Wa", 2017, 'animation', 3.6)
 mov3.add_movie("Masaan", 2019, 'drama', 4.7)
 mov3.add_movie()  #Run 3-4 times
 mov3.movie_rankings()
@@ -112,3 +112,4 @@ mov4.add_movie("Taken", 2008, 'action', 4)
 # Ref: https://www.geeksforgeeks.org/python-dictionary/
 # Ref: https://www.geeksforgeeks.org/python-super/
 # Ref: https://stackoverflow.com/questions/25320595/python-how-to-override-a-class-method-while-preserving-decorators-and-calling
+# Ref: https://stackoverflow.com/questions/4110665/sort-nested-dictionary-by-value-and-remainder-by-another-value-in-python
