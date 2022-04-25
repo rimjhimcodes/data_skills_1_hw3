@@ -2,10 +2,10 @@
 # Spring 2021
 # Homework 3
 
-# YOUR NAME HERE
+# RIMJHIM AGRAWAL
 
-# YOUR CANVAS NAME HERE
-# YOUR GITHUB USER NAME HERE
+# RIMJHIM AGRAWAL
+# RIMJHIMCODES
 
 # Due date: Sunday April 24th before midnight
 # Write your answers in the space between the questions, and commit/push only
@@ -49,7 +49,61 @@ class MovieDataBase():
         self.movies[title] = {'year':year, 'category':category, 'stars':stars}
         print(f'{title} ({year}) added to the database.')
 
-    def what_to_watch(self):
-        choice = random.choice(self.titles)
-        movie = self.movies[choice]
-        print(f"Your movie today is {choice} ({movie['year']}), which is a {movie['category']}, and was given {movie['stars']} stars.")
+    def what_to_watch(self, **category):
+        try:
+            choice = random.choice(self.titles)
+            movie = self.movies[choice]
+            print(f"Your movie today is {choice} ({movie['year']}), which is a {movie['category']}, and was given {movie['stars']} stars.")
+        except ValueError:
+            print("No movies to choose from. Please add movies.")
+            
+            
+class InteractiveMovieDataBase(MovieDataBase):
+    def add_movie(self, *data):
+        try:
+            super(InteractiveMovieDataBase, self).add_movie(*data)
+        except:
+            title, year, category = input('Enter movie title, year and category in order: ').split(",")
+            assert(isinstance(title, str)), 'Title needs to be a string.'
+            assert(year.isdigit()), 'Year has to be a number.'
+            assert(category in ('action', 'animation', 'comedy', 'drama', 'fantasy', 'horror', 'romance')), 'Please choose a valid category'
+            
+            stars = float(input('Enter stars: '))
+            assert stars < 5 or stars > 0, 'Enter valid rating'
+            
+            self.titles.append(title)
+            self.movies[title] = {'year':year, 'category':category, 'stars':stars}
+            
+            print(f'{title} ({year}) added to the database.')
+        
+    def movie_rankings(self):
+        ranking = [self.titles for key, value in sorted(self.movies.items(), key=lambda kv: kv[1]['stars'], reverse=True)]
+        return ranking[0]
+ 
+mov1 = MovieDataBase()       
+mov1.add_movie("Taken", 2008, 'action', 4) 
+mov1.add_movie("Jab We Met", 2003, 'romance', 4)
+mov1.add_movie("Orphan", 2010, 'horror', 3)   
+mov1.what_to_watch()
+
+mov2 = MovieDataBase()
+mov2.what_to_watch()
+
+#[Baahubali, 2015, fantasy, 5]
+#[Kimi No Na Wa,2017,animation, 4.6]
+#[Main Hoon Na,2004,drama, 3.8]
+#[X-Men, 2011, sci-fi, 4]
+
+mov3 = InteractiveMovieDataBase()
+mov3.add_movie("Baahubali", 2015, 'fantasy', 5)
+mov3.add_movie("Kimi No Na Wa", 2017, 'animation', 4.6)
+mov3.add_movie("Masaan", 2019, 'drama', 4.7)
+mov3.add_movie()  #Run 3-4 times
+mov3.movie_rankings()
+
+mov4 = InteractiveMovieDataBase()
+mov4.add_movie("Taken", 2008, 'action', 4)
+
+# Ref: https://www.geeksforgeeks.org/python-dictionary/
+# Ref: https://www.geeksforgeeks.org/python-super/
+# Ref: https://stackoverflow.com/questions/25320595/python-how-to-override-a-class-method-while-preserving-decorators-and-calling
