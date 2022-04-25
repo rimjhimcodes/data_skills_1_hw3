@@ -53,7 +53,8 @@ class MovieDataBase():
         try:
             choice = random.choice(self.titles)
             movie = self.movies[choice]
-            print(f"Your movie today is {choice} ({movie['year']}), which is a {movie['category']}, and was given {movie['stars']} stars.")
+            print(f"Your movie today is {choice} ({movie['year']}),"
+                  " which is a {movie['category']}, and was given {movie['stars']} stars.")
         except ValueError:
             print("No movies to choose from. Please add movies.")
             
@@ -63,10 +64,13 @@ class InteractiveMovieDataBase(MovieDataBase):
         try:
             super(InteractiveMovieDataBase, self).add_movie(*data)
         except:
-            title, year, category = input('Enter movie title, year and category in order: ').split(",")
+            title, year, category = input('Enter movie title, year and '
+                                          'category in order: ').split(",")
             assert(isinstance(title, str)), 'Title needs to be a string.'
-            assert(year.isdigit()), 'Year has to be a number.'
-            assert(category in ('action', 'animation', 'comedy', 'drama', 'fantasy', 'horror', 'romance')), 'Please choose a valid category'
+            assert(isinstance(year, str) and year.isdigit()), 'Year has to be a number.'
+            assert(category in ('action', 'animation', 
+                                'comedy', 'drama', 'fantasy', 'horror', 
+                                'romance')), 'Please choose a valid category'
             
             stars = float(input('Enter stars: '))
             assert stars < 5 or stars > 0, 'Enter valid rating'
@@ -77,7 +81,8 @@ class InteractiveMovieDataBase(MovieDataBase):
             print(f'{title} ({year}) added to the database.')
         
     def movie_rankings(self):
-        ranking = [self.titles for key, value in sorted(self.movies.items(), key=lambda kv: kv[1]['stars'], reverse=True)]
+        ranking = [self.titles for key, value in sorted(self.movies.items(), 
+                               key=lambda kv: kv[1]['stars'], reverse=True)]
         return ranking[0]
  
 mov1 = MovieDataBase()       
